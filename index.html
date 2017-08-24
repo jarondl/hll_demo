@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="generator" content=
+  "HTML Tidy for HTML5 for Linux version 5.4.0">
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="reveal.js/css/reveal.css">
+  <link rel="stylesheet" href="reveal.js/css/theme/white.css">
+  <script src=
+  "http://cdnjs.cloudflare.com/ajax/libs/headjs/1.0.3/head.load.min.js"></script>
+  <link rel="stylesheet" href=
+  "https://cdn.pydata.org/bokeh/release/bokeh-0.12.6.min.css" type=
+  "text/css">
+  <link rel="stylesheet" href=
+  "https://cdn.pydata.org/bokeh/release/bokeh-widgets-0.12.6.min.css"
+  type="text/css">
+  <script type="text/javascript" src=
+  "https://cdn.pydata.org/bokeh/release/bokeh-0.12.6.min.js"></script>
+  <script type="text/javascript" src=
+  "https://cdn.pydata.org/bokeh/release/bokeh-api-0.12.6.min.js"></script>
+  <script type="text/javascript" src="bitmap.js"></script>
+  <!-- The order of CSS and JS imports above is important. -->
+  <title>HyperLogLog in 5 Minutes</title>
+  <style type="text/css">
+
+#hit_table { font-size: 3vh; }
+
+
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <section data-markdown="">
+        <textarea data-template="">
+            ## (Hyper) LogLog Counting
+                        
+            How does *HyperLogLog* work in 5 minutes or less
+
+            https://jarondl.net/hll_demo/
+
+      </textarea>
+      </section>
+      <section data-markdown="">
+        <textarea data-template="">
+            q: What does HyperLogLog do?
+
+            a: Count distinct objects:
+
+                count_distinct(["Eric", "Michael",
+                    "Terry", "Terry", "John", "Graham"]) == 5
+
+            Then why not:
+                        
+                len(set(obj_list))
+            
+                  </textarea>
+      </section>
+      <section>
+        <h2>A BALANCE</h2>
+        <p class="fragment">You lose accuracy</p>
+        <p class="fragment">You gain coolness factor</p>
+      </section>
+      <section data-markdown="">
+        <textarea data-template="">
+            ## hash functions
+
+            A hash function can convert our objects to bit strings:
+
+                >>> f'{hash("Dennis Moore"):b}'
+                '-110010111111110110000000010100001010011110000110110000001100110'
+
+            We want hash functions with uniformly distributed bit strings
+                  </textarea>
+      </section>
+      <section>
+        <input type="range" min="0" max="7" value="0" id=
+        "mapXYSlider"><br>
+        <div id="mapXY" style="height: 80vh;"></div>
+      </section>
+      <section>
+        <section>
+          <button id="kmatrixadd" class=
+          "bk-bs-btn bk-bs-btn-success">Add Random
+          Value</button><br>
+          <table style="height: 1px; width:80vw;">
+            <tr>
+              <!--<div id="kmatrix" style="height: 100%;"></div>-->
+              <td style="height:85vh; width:70vw;">
+              <div id="kmatrix" style="height:100%; width:70vw;"></div>
+              </td>
+              <td style="height:85vh; width:20vw; vertical-align:top">
+        <table id="hit_table"><tbody></tbody>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </section>
+        <section data-markdown="">
+        <textarea data-template="">
+            ## Remember
+
+            The counts are meaningless - a repeating object should be counted just once.
+
+            But the max-leading-zeros (*k*) is fine.
+
+        </textarea>
+        </section>
+        <section>
+          <h2>Chances of hitting the 7th box</h2>
+          <div id="k7" style="height: 80vh;"></div>
+        </section>
+        <section>
+          <h2>Probabilities for different k given N=1000</h2>
+          <div id="N1000" style="height: 80vh;"></div>
+        </section>
+      </section>
+      <section>
+        <section data-markdown="">
+            <textarea data-template="">
+                        ## Why is HyperLogLog so much better
+
+                        In the naive algorithm, you had to keep track of all
+                        seen objects, and compare each incoming object to to
+                        everything seen thus far.
+
+                        In *LogLog* you just keep track of the maximal number
+                        of leading zeros, and compare each incoming object to
+                        that maximum
+                      </textarea>
+        </section>
+        <section data-markdown="">
+          <textarea data-template="">
+                ## Where's the Hyper part?
+                
+                Instead of keeping track of one maxmimum, you multiplex:
+                
+                * Seprate the objects to N independent buckets, by a different part of the bitstring (e.g. N=2**14).
+                * Keep track separately
+                * Combine using math (something very similar to this):
+                 
+                    1/sum(2.0**(-k) for k in k_buckets)
+                 
+              </textarea>
+        </section>
+      </section>
+    </div>
+  </div>
+  <script src="reveal.js/js/reveal.js"></script> 
+  <script>
+
+
+            Reveal.initialize({
+                dependencies: [
+                // Interpret Markdown in <section> elements
+                { src: 'reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                { src: 'reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                { src: 'reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+                ]});
+  </script>
+</body>
+</html>
+<!-- vim: ts=4:sw=4:expandtab 
+-->
