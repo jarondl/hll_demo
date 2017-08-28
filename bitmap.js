@@ -167,5 +167,12 @@ head.ready(() => {
     mapXYSlider.value=0;
     window.addEventListener("resize", adjust_fontsize);
     document.getElementById("kmatrixadd").addEventListener("click", add_value);
+
+    // Bokeh won't readjust the plots when revealed, so they will
+    // be adjusted to the hidden sizes which are smaller.
+    // We'll fake a window resize event on fragment view
+    Reveal.addEventListener('slidechanged', () => {
+        window.dispatchEvent(new Event('resize'));
+    });
 })
 // vim: ts=4:sw=4:expandtab 
