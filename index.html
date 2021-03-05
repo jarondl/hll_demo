@@ -95,19 +95,15 @@
         <section>
           <button id="kmatrixadd" class=
           "bk-bs-btn bk-bs-btn-success">Add Random
-          Value</button><br>
-          <table style="height: 1px; width:80vw;">
-            <tr>
-              <!--<div id="kmatrix" style="height: 100%;"></div>-->
-              <td style="height:85vh; width:70vw;">
-              <div id="kmatrix" style="height:100%; width:70vw;"></div>
-              </td>
-              <td style="height:85vh; width:20vw; vertical-align:top">
-        <table id="hit_table"><tbody></tbody>
+          Value</button>
+          <button id="kmatrixreset" class=
+          "bk-bs-btn bk-bs-btn-success">Reset
+          </button>
+          <div class="wrapper" style="display: grid; grid-template-columns: 4fr 1fr;">
+              <div id="kmatrix" style="grid-column: 1;"></div>
+                <table id="hit_table" style="grid-column: 2;"><tbody></tbody>
                 </table>
-              </td>
-            </tr>
-          </table>
+          </div>
         </section>
         <section data-markdown="">
         <textarea data-template="">
@@ -139,7 +135,9 @@
 
                         In *LogLog* you just keep track of the maximal number
                         of leading zeros, and compare each incoming object to
-                        that maximum
+                        that maximum.
+
+                        *LogLog* is also mergable, deterministic, and trivialy parallelizable.
                       </textarea>
         </section>
         <section data-markdown="">
@@ -164,6 +162,8 @@
 
 
             Reveal.initialize({
+                width: 1280,
+                height: 720,
                 dependencies: [
                 // Interpret Markdown in <section> elements
                 { src: 'reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },

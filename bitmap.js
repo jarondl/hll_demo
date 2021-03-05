@@ -105,6 +105,13 @@ function add_value(){
     kseen[k]++;
     update_table();
 }
+function reset_value(){
+    kseen.fill(0);
+    kmatrixcircles.data_source.data.x = [];
+    kmatrixcircles.data_source.data.y = [];
+    kmatrixcircles.data_source.change.emit();
+    update_table();
+}
 
 function create_table() {
     let table_body = document.getElementById('hit_table').children[0];
@@ -167,6 +174,7 @@ head.ready(() => {
     mapXYSlider.value=0;
     window.addEventListener("resize", adjust_fontsize);
     document.getElementById("kmatrixadd").addEventListener("click", add_value);
+    document.getElementById("kmatrixreset").addEventListener("click", reset_value);
 
     // Bokeh won't readjust the plots when revealed, so they will
     // be adjusted to the hidden sizes which are smaller.
