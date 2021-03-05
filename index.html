@@ -99,6 +99,8 @@
           <button id="kmatrixreset" class=
           "bk-bs-btn bk-bs-btn-success">Reset
           </button>
+          <span id="real_count"></span>
+          <span id="approx_count"></span>
           <div class="wrapper" style="display: grid; grid-template-columns: 4fr 1fr;">
               <div id="kmatrix" style="grid-column: 1;"></div>
                 <table id="hit_table" style="grid-column: 2;"><tbody></tbody>
@@ -111,7 +113,7 @@
 
             The counts are meaningless - a repeating object should be counted just once.
 
-            But the max-leading-zeros (*k*) is fine.
+            But the max-leading-zeros (*k*) is special.
 
         </textarea>
         </section>
@@ -144,7 +146,7 @@
           <textarea data-template="">
                 ## Where's the Hyper part?
                 
-                Instead of keeping track of one maxmimum, you multiplex:
+                Instead of keeping track of one maximum, you multiplex:
                 
                 * Seprate the objects to N independent buckets, by a different part of the bitstring (e.g. N=2**14).
                 * Keep track separately

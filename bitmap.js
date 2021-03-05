@@ -128,9 +128,14 @@ function create_table() {
 // Table
 function update_table(){
     let table = document.getElementById('hit_table');
+    let max = 0;
     for (let row=0; row<kseen.length; row++){
         table.rows[row].cells[1].innerText = kseen[row];
+        if (kseen[row]) max = row;
     }
+    const total = kseen.reduce((a,b) => a + b, 0);
+    document.getElementById('real_count').innerText = "count= " + total;
+    document.getElementById('approx_count').innerText = ",  2^" + max+ " = " +2**max;
 }
 
 // k=7
